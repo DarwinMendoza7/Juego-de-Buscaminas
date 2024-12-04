@@ -26,9 +26,13 @@ Al iniciar el juego, verás algo similar a esto:
            ---+---------------------------------------------------
             H |    |    |    |    |    |    |    |    |    |    |
            ---+---------------------------------------------------
-           Ingrese coordenadas (Ejemplo A5), 'marcar A5' para marcar, o 'guardar' para guardar: 
+           Ingrese una de las siguientes opciones:
+	       - Para descubrir una casilla, ingrese la coordenada (ejemplo A5).
+           - Para marcar una casilla, ingrese marcar seguido de la coordenada (ejemplo marcar A5).
+	       - Para guardar el progreso, ingrese guardar.
+           Ingrese la opcion:  
 **Comandos:**  
-- Para descubrir la casilla A1: ingresa A1
+- Para descubrir la casilla A1: ingresa A1  
 - Para marcar la casilla B2: ingresa marcar B2  
 - Para guardar el estado del juego: ingresa guardar    
 ## Estructura del Programa ##  
@@ -50,7 +54,9 @@ El programa está estructurado en varios paquetes para mantener una organizació
     |    └── ExcepcionCasillaYaDescubierta.java
     >test
     |──test/                     # Paquete que contiene las pruebas unitarias
+    |  |──CasillaTest.java
     |  └──TableroTest.java
+    
 ## Descripción de Clases ##   
 - **Main:** Clase principal que inicia el juego.    
 - **ControladorJuego:** Maneja la lógica y la interacción con el usuario.  
@@ -58,7 +64,8 @@ El programa está estructurado en varios paquetes para mantener una organizació
 - **Casilla:** Representa cada celda del tablero y su estado (mina,descubierta,marcada).  
 - **VistaTablero:** Se encarga de mostrar el estado actual del tablero al usuario.  
 - **ExcepcionCasillaYaDescubierta:** Excepción personalizada que se lanza cuando se intenta descubrir una casilla ya descubierta.
-- **TableroTest:** Clase para la prueba unitaria de la clase Tablero.
+- **CasillaTest:** Clase para la prueba unitaria de la clase Casilla.  
+- **TableroTest:** Clase para la prueba unitaria de la clase Tablero.    
 ## Instrucciones para Clonar y Ejecutar el Proyecto ##
 **1.** Asegurate de tener Git instalado en tu sistema. Puedes verificarlo abriendo una terminal y ejecutando el siguiente comando:
      
