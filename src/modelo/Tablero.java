@@ -121,14 +121,24 @@ public class Tablero implements Serializable {
             }
         }
     }
-
+    
+    //Revela la posición de las minas
+    public void revelarMinas() {
+    	for(int i = 0; i < filas; i++) {
+    		for(int j = 0; j < columnas; j++) {
+    			if(casillas[i][j].tieneMina()){
+    				casillas[i][j].descubrir();
+    			}
+    		}
+    	}
+    }
     //Guarda el estado actual del tablero en un archivo
     public void guardarEstado(String nombreArchivo) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreArchivo))) {
             oos.writeObject(this);
-            System.out.println("Estado guardado exitosamente.");
+            System.out.println("Partida guardada exitosamente.");
         } catch (IOException e) {
-            System.err.println("Error al guardar el estado: " + e.getMessage());
+            System.err.println("Error al guardar la partida: " + e.getMessage());
         }
     }
 

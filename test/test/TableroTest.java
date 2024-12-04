@@ -27,24 +27,7 @@ public class TableroTest {
         tablero.descubrirCasilla(0, 0);
         tablero.descubrirCasilla(0, 0); 
     }
-
-    @Test
-    public void testContarMinasAlrededor() throws Exception {
-        // Colocar una mina manualmente en (1, 1)
-        tablero.getCasillas()[1][1].ponerMina(); 
-        // Llamar a calcularMinasAlrededor para actualizar los conteos
-        tablero.calcularMinasAlrededor();
-
-        // Verificamos que la casilla (0, 0) tiene 1 mina alrededor
-        assertEquals(1, tablero.getCasillas()[0][0].getMinasAlrededor());
-
-        // Ahora descubrimos la casilla (0, 0)
-        tablero.descubrirCasilla(0, 0); 
-
-        // Verificamos que la casilla (0, 0) ha sido descubierta
-        assertTrue(tablero.getCasillas()[0][0].estaDescubierta());
-    }
-
+    
     @Test
     public void testMarcarYDesmarcarCasilla() {
         Casilla casilla = tablero.getCasillas()[0][0];

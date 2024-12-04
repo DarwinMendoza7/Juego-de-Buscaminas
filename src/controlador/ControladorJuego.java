@@ -24,12 +24,35 @@ public class ControladorJuego {
    public void iniciarJuego() { 
        Scanner scanner = new Scanner(System.in);
        
+       System.out.println("¿Desea cargar un juego guardado? Ingrese una opción (s/n): ");
+       String respuesta = scanner.nextLine().toLowerCase();
+       
+       if(respuesta.equals("s")) {
+    	   Tablero loadedTablero = Tablero.cargarEstado("estado_juego.dat");
+    	   if(loadedTablero != null) {
+    		   this.tablero = loadedTablero;
+    		   System.out.println("Partida cargada exitosamente."); 
+    		   System.out.println();
+    	   }else {
+    		   System.out.println("No se encontro una partida guardada. Comenzando nueva partida.");
+    		   this.tablero = new Tablero(8,10,10);
+    	   }
+       }else {
+    	   this.tablero = new Tablero(8,10,10);
+       }
+       
+       vista.mostrar(tablero); 
+       
        while (true) { 
-           vista.mostrar(tablero); 
-           System.out.print("Ingrese una de las siguientes opciones:\n"
+    	   System.out.println();
+           
+           System.out.print("===========================================================================================\n"
+        		   +"Ingrese una de las siguientes opciones:\n"
+        		+"===========================================================================================\n"
            		+ "- Para descubrir una casilla, ingrese la coordenada (ejemplo A5).\n"
            		+ "- Para marcar una casilla, ingrese marcar seguido de la coordenada (ejemplo marcar A5),\n"
            		+ "- Para guardar el progreso, ingrese guardar.\n"
+           		+"============================================================================================\n"
            		+ "Ingrese la opcion: "); 
 
            String input = scanner.nextLine().toUpperCase();
@@ -50,10 +73,12 @@ public class ControladorJuego {
                int y = Integer.parseInt(coordenadas.substring(1)) - 1;
 
                tablero.getCasillas()[x][y].marcar(); // Marcar o desmarcar la casilla
+               vista.mostrar(tablero);
 
                continue; 
 
-           } else if (!input.matches("[A-H][1-9]|[A-H]10")) {  
+           }
+            if (!input.matches("[A-H][1-9]|[A-H]10")) {  
                vista.mostrarMensaje("Entrada inválida. Intente nuevamente.");  
                continue;  
            }
@@ -65,12 +90,14 @@ public class ControladorJuego {
                tablero.descubrirCasilla(x, y);
 
                if (tablero.getCasillas()[x][y].tieneMina()) {  
+            	   tablero.revelarMinas();
                    vista.mostrar(tablero);  
                    vista.mostrarMensaje("¡Has perdido! Has descubierto una mina.");  
                    break;  
                }
 
                if (verificarVictoria()) {  
+            	   
                    vista.mostrar(tablero);  
                    vista.mostrarMensaje("¡Felicidades! Has descubierto todas las casillas seguras. ¡Has ganado!");  
                    break;  
@@ -95,9 +122,9 @@ public class ControladorJuego {
        Tablero loadedTablero = Tablero.cargarEstado("estado_juego.dat");  
        if (loadedTablero != null) {  
            this.tablero = loadedTablero;  
-           System.out.println("Juego cargado exitosamente.");  
+            
        } else {  
-           System.out.println("No se encontró un estado guardado.");  
+           System.out.println("No se encontró una partida guardada.");  
        }  
    }
 
