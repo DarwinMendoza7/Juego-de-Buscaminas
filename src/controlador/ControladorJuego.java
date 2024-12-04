@@ -5,30 +5,38 @@ import vista.VistaTablero;
 import excepciones.ExcepcionCasillaYaDescubierta;
 import java.util.Scanner;
 
+/*Clase responsable de manejar la lógica del juego, incluyendo interacciones
+ * con el usuario y gestión del estado del juego*/
 public class ControladorJuego {
 
    private Tablero tablero;
    private VistaTablero vista;
 
    public ControladorJuego() { 
-       this.tablero = new Tablero(8, 10, 10); // Tablero de 8x10 con 10 minas
+       this.tablero = new Tablero(8, 10, 10); 
        this.vista = new VistaTablero(); 
 
-       cargarJuego(); // Cargar el juego si hay un estado guardado al iniciar.
+       cargarJuego(); 
    }
 
+   /*Inicia el bucle principal del juego, permitiendo al usuario interactuar con él hasta 
+    * que termine o gane*/
    public void iniciarJuego() { 
        Scanner scanner = new Scanner(System.in);
        
        while (true) { 
            vista.mostrar(tablero); 
-           System.out.print("Ingrese coordenadas (Ejemplo A5), 'marcar A5' para marcar, o 'guardar' para guardar: "); 
+           System.out.print("Ingrese una de las siguientes opciones:\n"
+           		+ "- Para descubrir una casilla, ingrese la coordenada (ejemplo A5).\n"
+           		+ "- Para marcar una casilla, ingrese marcar seguido de la coordenada (ejemplo marcar A5),\n"
+           		+ "- Para guardar el progreso, ingrese guardar.\n"
+           		+ "Ingrese la opcion: "); 
 
            String input = scanner.nextLine().toUpperCase();
 
            if ("GUARDAR".equals(input)) { // Comando para guardar el estado
                tablero.guardarEstado("estado_juego.dat");
-               continue; // Volver al inicio del bucle
+               continue; 
            }
 
            if (input.startsWith("MARCAR ")) { // Comando para marcar una casilla
@@ -43,7 +51,7 @@ public class ControladorJuego {
 
                tablero.getCasillas()[x][y].marcar(); // Marcar o desmarcar la casilla
 
-               continue; // Volver al inicio del bucle
+               continue; 
 
            } else if (!input.matches("[A-H][1-9]|[A-H]10")) {  
                vista.mostrarMensaje("Entrada inválida. Intente nuevamente.");  
@@ -82,6 +90,7 @@ public class ControladorJuego {
        scanner.close();  
    }
 
+   //Carga un estado previamente guardado desde un archivo
    private void cargarJuego() {  
        Tablero loadedTablero = Tablero.cargarEstado("estado_juego.dat");  
        if (loadedTablero != null) {  
@@ -92,6 +101,7 @@ public class ControladorJuego {
        }  
    }
 
+   //Verifica si se ha ganado el juego comprobando si todas las celdas seguras han sido descubiertas
    private boolean verificarVictoria() {  
        int totalCasillasSeguras = tablero.getCasillas().length * tablero.getCasillas()[0].length - 10;  
        int casillasDescubiertas = 0;

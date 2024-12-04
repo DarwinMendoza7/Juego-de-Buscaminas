@@ -4,13 +4,18 @@ import java.io.*;
 import java.util.Random;
 import excepciones.ExcepcionCasillaYaDescubierta;
 
+/*Clase que representa eñ tablero del juego.
+ * Contiene un arreglo de casillas y maneja la lógica del juego
+ * incluyendo la colocación de minas y el descubrimiento de casillas*/
+
 public class Tablero implements Serializable {
-    private static final long serialVersionUID = 1L; 
+    private static final long serialVersionUID = 1L; //Para la serialización 
     private Casilla[][] casillas;
     private int filas;
     private int columnas;
     private int minas;
 
+    //Constructor para inicializar un nuevo tablero
     public Tablero(int filas, int columnas, int minas) {
         this.filas = filas;
         this.columnas = columnas;
@@ -19,6 +24,7 @@ public class Tablero implements Serializable {
         inicializarTablero();
     }
 
+    //Inicializa todas las casillas del tablero
     private void inicializarTablero() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -29,6 +35,7 @@ public class Tablero implements Serializable {
         calcularMinasAlrededor();
     }
 
+    //Coloca las minas aleatoriamente en el tablero
     private void colocarMinas() {
         Random rand = new Random();
         for (int colocadas = 0; colocadas < minas;) {
@@ -40,7 +47,7 @@ public class Tablero implements Serializable {
             }
         }
     }
-
+    //Calcula cuantas minas hay alrededor de cada casilla en el tablero
     public void calcularMinasAlrededor() {
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
@@ -51,6 +58,7 @@ public class Tablero implements Serializable {
         }
     }
 
+    //Cuenta cuántas minas hay alrededor de una posición dada en el tablero
     private int contarMinas(int fila, int columna) {
         int conteo = 0;
         for (int x = -1; x <= 1; x++) {
@@ -75,11 +83,12 @@ public class Tablero implements Serializable {
         }
         return totalMinas;
     }
-    
+    //Devuelve las casillas del tablero
     public Casilla[][] getCasillas() {
         return casillas;
     }
 
+    //Descubre una casilla en las coordenadas dadas
     public void descubrirCasilla(int x, int y) throws ExcepcionCasillaYaDescubierta {
         if (casillas[x][y].estaDescubierta()) {
             throw new ExcepcionCasillaYaDescubierta("La casilla ya ha sido descubierta.");
@@ -93,6 +102,7 @@ public class Tablero implements Serializable {
         }
     }
 
+    //Descubre las casillas adyacentes a una posición dada si son seguras.
     private void descubrirAdyacentes(int x, int y) {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
@@ -112,6 +122,7 @@ public class Tablero implements Serializable {
         }
     }
 
+    //Guarda el estado actual del tablero en un archivo
     public void guardarEstado(String nombreArchivo) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(nombreArchivo))) {
             oos.writeObject(this);
@@ -121,6 +132,7 @@ public class Tablero implements Serializable {
         }
     }
 
+    //Carga un estado previamente guardado desde un archivo
    public static Tablero cargarEstado(String nombreArchivo) { 
        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(nombreArchivo))) { 
            return (Tablero) ois.readObject(); 

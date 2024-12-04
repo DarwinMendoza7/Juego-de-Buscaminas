@@ -30,16 +30,19 @@ public class TableroTest {
 
     @Test
     public void testContarMinasAlrededor() throws Exception {
-        // Colocar una mina manualmente
+        // Colocar una mina manualmente en (1, 1)
         tablero.getCasillas()[1][1].ponerMina(); 
-        // Llamar a calcularMinasAlrededor indirectamente
+        // Llamar a calcularMinasAlrededor para actualizar los conteos
         tablero.calcularMinasAlrededor();
 
-        // Ahora verifica que una casilla adyacente tenga el conteo correcto
-        tablero.getCasillas()[0][0].descubrir(); // Descubrir una casilla adyacente
-
-        // Verificamos que hay una mina alrededor
+        // Verificamos que la casilla (0, 0) tiene 1 mina alrededor
         assertEquals(1, tablero.getCasillas()[0][0].getMinasAlrededor());
+
+        // Ahora descubrimos la casilla (0, 0)
+        tablero.descubrirCasilla(0, 0); 
+
+        // Verificamos que la casilla (0, 0) ha sido descubierta
+        assertTrue(tablero.getCasillas()[0][0].estaDescubierta());
     }
 
     @Test

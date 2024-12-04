@@ -2,6 +2,9 @@ package modelo;
 
 import java.io.Serializable;
 
+/*Clase que representa una casilla en el tablero del juego.
+ * Cada casilla puede contener una mina y puede ser marcada o descubierta. */
+
 public class Casilla extends ElementoJuego implements Descubrible, Serializable {
     private static final long serialVersionUID = 1L;
     private boolean mina;
